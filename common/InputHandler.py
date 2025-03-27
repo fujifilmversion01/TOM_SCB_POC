@@ -1,9 +1,9 @@
-from  dialog import  custom_input_dialog
+from  common.dialog import  custom_input_dialog
 import sys  # 用於退出程式
-from messagebox import  MessageBox
+from common.messagebox import  MessageBox
 import tkinter as tk
 from tkinter import ttk
-from selectitem import DropdownDialog
+from common.selectitem import DropdownDialog
 #import selectitem2
 class InputHandler:
     def __init__(self):
@@ -18,7 +18,9 @@ class InputHandler:
         """輸入對話框，直到用戶輸入有效內容"""
         while True:
             user_input = custom_input_dialog(prompt=prompt, show=show)
-            return self.dialog_result_handler(res=user_input, prompt=prompt)
+            res=self.dialog_result_handler(res=user_input, prompt=prompt)
+            if res:
+                return res
             # if user_input:
             #     return user_input
             # elif user_input is None :

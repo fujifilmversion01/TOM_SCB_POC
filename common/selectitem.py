@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from messagebox import MessageBox
+from common.messagebox import MessageBox
 
 class DropdownDialog:
     def __init__(self):

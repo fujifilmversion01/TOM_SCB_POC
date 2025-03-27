@@ -1,6 +1,6 @@
 import pandas as pd
 from openpyxl import load_workbook
-from InputHandler import  InputHandler
+from common.InputHandler import  InputHandler
 # 主程式
 def main():
     m_input_handler = InputHandler()

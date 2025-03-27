@@ -1,0 +1,5 @@
+login:
+  LOGON APPLID: "A72CP1AW"
+  LOGMODE: "SNX32702"
+ccms_path: "C:\\Program Files\\Notepad++\\notepad++.exe"
+input_excel_path: "test.xlsx"
