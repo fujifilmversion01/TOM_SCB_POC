@@ -1,5 +1,8 @@
 login:
-  LOGON APPLID: "A72CP1AW"
+  LOGON_APPLID: "A72CP1AW"
   LOGMODE: "SNX32702"
 ccms_path: "C:\\Program Files\\Notepad++\\notepad++.exe"
 input_excel_path: "test.xlsx"
+login_page_string: "login"
+login_failed_message: "登入失敗，請確認後再執行RPA"
+open_exe_delay_after_seconds: "3"

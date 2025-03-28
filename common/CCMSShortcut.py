@@ -11,3 +11,8 @@ class CCMSShortcut:
         pyperclip.copy(str)
         pyautogui.hotkey('ctrl', 'v')  # 模擬 Ctrl + V 貼上
         time.sleep(1)
+    def get_current_page_text(self):
+        page_text=""
+        pyautogui.hotkey('ctrl', 'c')
+        page_text = pyperclip.paste()
+        return page_text

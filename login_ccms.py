@@ -9,7 +9,7 @@ class LoginCCMSService:
         self.config = config
         self.inputhandler = inputhandler
         self.ccms_shortcut = ccms_shortcut
-        self.logon_applid=self.config["login"]["LOGON APPLID"]
+        self.logon_applid=self.config["login"]["LOGON_APPLID"]
         self.logmode=self.config["login"]["LOGMODE"]
         self.username=""
         self.password=""
@@ -25,11 +25,15 @@ class LoginCCMSService:
         self.ccms_shortcut.copy_and_paste(str=self.password)
         self.ccms_shortcut.press_tab()
     def validate_user(self):
-        pass
+        current_text=self.ccms_shortcut.get_current_page_text()
+        if self.config['login_page_string'] in current_text :
+            return True
+        else:
+            return False
     def login_process(self):
         self.collect_login_data()
         self.typeinto_login_data()
-        self.validate_user()
+        return self.validate_user()
         # open_ccms(config["ccms_path"])
         # time.sleep(1)
         #logon_applid = self.config["login"]["LOGON APPLID"]
