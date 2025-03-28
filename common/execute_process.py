@@ -34,6 +34,7 @@ class ProcessManager:
                 self.process.terminate()  # 或使用 self.process.kill() 強制終止進程
                 error_message = f"進程已被終止."
                 is_close_success = True
+                self.process=None
             except Exception as e:
                 error_message = f"無法終止進程: {e}"
         else:
