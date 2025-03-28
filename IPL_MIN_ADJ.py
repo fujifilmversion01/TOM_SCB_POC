@@ -1,7 +1,3 @@
-from logging import exception
-
-from numpy.f2py.auxfuncs import throw_error
-
 from common.messagebox import MessageBox
 from init import load_config
 from init import load_input_excel
