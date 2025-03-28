@@ -27,9 +27,9 @@ class LoginCCMSService:
     def validate_user(self):
         current_text=self.ccms_shortcut.get_current_page_text()
         if self.config['login_page_string'] in current_text :
-            return True
-        else:
             return False
+        else:
+            return True
     def login_process(self):
         self.collect_login_data()
         self.typeinto_login_data()
