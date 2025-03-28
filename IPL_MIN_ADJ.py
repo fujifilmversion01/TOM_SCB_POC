@@ -23,22 +23,24 @@ def main():
     _ccms_shortcut=CCMSShortcut(config=config)
     _processmanager=ProcessManager(config=config)
 
-    # 登入CCMS scope-----start
-
     # 開啟CCMS-----start
     is_exec_success,open_exe_error_message=_processmanager.open_exe(config["ccms_path"])
     if not is_exec_success:
         raise Exception(f"開啟CCMS時發生錯誤: {open_exe_error_message}")
     # 開啟CCMS-----end
     try:
-        # 登入-----start
+        # 登入CCMS scope-----start
         _login_ccms_service = LoginCCMSService(config=config, inputhandler=_inputhandler, ccms_shortcut=_ccms_shortcut)
         if _login_ccms_service.login_process() is False:
             close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager)
             _inputhandler.show_exit_message_and_exit(config['login_failed_message'])
-        # 登入-----end
-
         # 登入CCMS scope-----end
+
+        # Excel 處理
+
+
+        # Proceess
+
     except Exception as ex:
         raise Exception(ex)
     finally:
