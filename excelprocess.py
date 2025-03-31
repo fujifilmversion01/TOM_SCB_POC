@@ -1,4 +1,7 @@
 import pandas as pd
+from openpyxl.utils import get_column_letter
+import openpyxl
+from openpyxl import load_workbook
 class ExcelProcessor:
     def __init__(self, input_excel_data,config):
         self.input_excel_data = input_excel_data
@@ -32,3 +35,13 @@ class ExcelProcessor:
     def get_valid_data(self):
         # 返回經過驗證的資料
         return self.input_excel_data
+    def saveas_result(self,org_file_path,new_file_path,modified_dataframe):
+        # 3️⃣ 使用 openpyxl 讀取原始 Excel 檔案並保留公式
+        wb = openpyxl.load_workbook(org_file_path)
+        ws = wb.active
+        for r_idx, row in enumerate(modified_dataframe.itertuples(index=False), start=2):  # 從第2列開始寫
+            for c_idx, value in enumerate(row[5:8], start=1):  # 只處理 F-H 欄 6,7,8
+                print(value)
+                ws.cell(row=r_idx, column=c_idx, value=value)
+        # 6️⃣ 儲存修改過後的 Excel 檔案
+        wb.save(new_file_path)
