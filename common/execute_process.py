@@ -1,12 +1,17 @@
 import subprocess
 import time
-
+import psutil
 
 class ProcessManager:
     def __init__(self,config):
         self.process = None
         self.config=config
     def open_exe(self, exe_path):
+
+        # 測試根據進程名稱終止 Notepad++
+        success, close_process_by_name_err_message = self.close_process_by_name(self.config['processname'])
+        if not success:
+            return success, close_process_by_name_err_message
         """啟動指定路徑的EXE程序"""
         is_exec_success = False
         error_message = ""
@@ -40,3 +45,18 @@ class ProcessManager:
         else:
             error_message = "沒有活動的進程"
         return is_close_success, error_message
+
+    def close_process_by_name(self, process_name):
+        """根據進程名稱終止進程，例如 Notepad++"""
+        try:
+            # 使用 psutil 遍歷所有運行中的進程
+            for proc in psutil.process_iter(['pid', 'name']):
+                if process_name.lower() in proc.info['name'].lower():
+                    proc.terminate()  # 終止進程
+                    print(f"已終止進程: {proc.info['name']}，PID: {proc.info['pid']}")
+                    return True, f"進程 {proc.info['name']} 已被終止"
+            return False, f"未找到進程 {process_name}"
+        except psutil.NoSuchProcess:
+            return False, "指定的進程不存在"
+        except Exception as e:
+            return False, f"終止進程時出錯: {e}"

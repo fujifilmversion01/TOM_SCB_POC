@@ -1,16 +1,18 @@
 from common.messagebox import MessageBox
+from excelprocess import ExcelProcessor
 from init import load_config
 from init import load_input_excel
 from login_ccms import LoginCCMSService
 from common.execute_process import ProcessManager
 from common.InputHandler import InputHandler
 from common.CCMSShortcut import CCMSShortcut
-
-def close_exe(InputHandler,ProcessManager):
+from excelprocess import ExcelProcessor
+def main_close_exe(InputHandler,ProcessManager,exit_message):
     if ProcessManager.process:
         is_close_success, close_exe_error_message = ProcessManager.close_exe()
         if not is_close_success:
             InputHandler.msg_box(close_exe_error_message)
+    InputHandler.show_exit_message_and_exit(exit_message)
 def main():
     # 初始化
     config = load_config()
@@ -28,19 +30,21 @@ def main():
         # 登入CCMS scope-----start
         _login_ccms_service = LoginCCMSService(config=config, inputhandler=_inputhandler, ccms_shortcut=_ccms_shortcut)
         if _login_ccms_service.login_process() is False:
-            close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager)
-            _inputhandler.show_exit_message_and_exit(config['login_failed_message'])
+          return  main_close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager,exit_message=config['login_failed_message'])
         # 登入CCMS scope-----end
 
         # Excel 處理
-
+        _excelprocessor = ExcelProcessor(config=config, input_excel_data=input_excel)
+        valid, _excelprocessor_get_valid_data_error_messages = _excelprocessor.validate_data()
+        if not valid:
+           return main_close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager,exit_message=_excelprocessor_get_valid_data_error_messages)
 
         # Proceess
 
+        #結束
+        main_close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager, exit_message="RPA執行完成")
     except Exception as ex:
-        raise Exception(ex)
-    finally:
-        close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager)
+        main_close_exe(InputHandler=_inputhandler, ProcessManager=_processmanager,exit_message=ex)
 if __name__ == "__main__":
     msg_box = MessageBox()
     try:
